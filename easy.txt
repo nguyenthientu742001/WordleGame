@@ -1,0 +1,10 @@
+cow
+lion
+cat
+dog
+book
+tiger
+pen
+pencil
+eraser
+pink
