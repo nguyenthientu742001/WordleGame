@@ -1,0 +1,3 @@
+C:/Users/NGUYEN THIEN TU/Desktop/WordleGame/cmake-build-debug/CMakeFiles/WordleGame.dir
+C:/Users/NGUYEN THIEN TU/Desktop/WordleGame/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/NGUYEN THIEN TU/Desktop/WordleGame/cmake-build-debug/CMakeFiles/rebuild_cache.dir
