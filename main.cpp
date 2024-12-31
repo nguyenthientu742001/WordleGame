@@ -157,10 +157,31 @@ struct top3Easy {
     string top1;
     string top2;
     string top3;
+    int top1Score;
+    int top2Score;
+    int top3Score;
 };
 
-void sorting_easyScores_of_userNameStore_Struct(top3Easy top3EasyLevel[], User userNameStore[], int size){
-    //User *sortedUserNameStore = new User[size];
+struct top3Medium {
+    string top1;
+    string top2;
+    string top3;
+    int top1Score;
+    int top2Score;
+    int top3Score;
+};
+
+struct top3Hard {
+    string top1;
+    string top2;
+    string top3;
+    int top1Score;
+    int top2Score;
+    int top3Score;
+};
+
+User *sorting_easyScores_of_userNameStore_Struct_max_to_min( User userNameStore[], int size){
+    User *sortedUserNameStore = new User[size];
 
     for(int i = 0; i< size; i++){
         for(int j = i + 1; j < size; j++){
@@ -175,20 +196,212 @@ void sorting_easyScores_of_userNameStore_Struct(top3Easy top3EasyLevel[], User u
     }
 
     for(int i = 0; i < size; i++) {
+        sortedUserNameStore[i] = userNameStore[i];
+    }
+
+    return sortedUserNameStore;
+
+}
+
+top3Easy* top3_easy_level(User userNameStore[], int size) {
+    top3Easy *top3EasyLevel = new top3Easy[size];
+    // Find all the top 1 score
+    int countFirstTop =1;
+    for(int i = 0; i < size; i++) {
         top3EasyLevel[0].top1 = userNameStore[0].name;
+        top3EasyLevel[0].top1Score = userNameStore[0].easyScore;
         if(userNameStore[0].easyScore == userNameStore[i+1].easyScore) {
             top3EasyLevel[i+1].top1 = userNameStore[i+1].name;
+            countFirstTop++;
+
+        }
+    }
+    // cout << endl;
+    // for (int i = 0; i < 10; i++) {
+    //     cout << top3EasyLevel[i].top1<< " ";
+    //
+    // }
+
+    // Find all the top 2 score
+    int countSecondTop =1;
+    for(int i = countFirstTop; i<size; i++) {
+        top3EasyLevel[0].top2 = userNameStore[countFirstTop].name;
+        top3EasyLevel[0].top2Score = userNameStore[countFirstTop].easyScore;
+        if(userNameStore[countFirstTop].easyScore == userNameStore[i+1].easyScore) {
+            for(int j =countSecondTop-1; j<countSecondTop; j++) { // từ từ làm lại =)))))))
+                top3EasyLevel[j+1].top2 = userNameStore[i+1].name;
+            }
+            countSecondTop++;
         }
     }
 
 
+    int countThirdTop =1;
+    int totalTop1and2= countFirstTop+ countSecondTop;
 
-    // for(int i = 0; i < size; i++) {
-    //     sortedUserNameStore[i] = userNameStore[i];
+    for(int i = totalTop1and2; i<size; i++) {
+        top3EasyLevel[0].top3 = userNameStore[totalTop1and2].name;
+        top3EasyLevel[0].top3Score = userNameStore[totalTop1and2].easyScore;
+        if(userNameStore[totalTop1and2].easyScore == userNameStore[i+1].easyScore) {
+            for(int j =countThirdTop-1; j<countThirdTop; j++) { // từ từ làm lại =)))))))
+                top3EasyLevel[j+1].top3 = userNameStore[i+1].name;
+            }
+            countThirdTop++;
+        }
+    }
+    for(int i = 0; i < size; i++) {
+        top3EasyLevel[i] = top3EasyLevel[i];
+    }
+    return top3EasyLevel;
+}
+
+User *sorting_mediumScores_of_userNameStore_Struct_max_to_min( User userNameStore[], int size){
+    User *sortedUserNameStore = new User[size];
+
+    for(int i = 0; i< size; i++){
+        for(int j = i + 1; j < size; j++){
+            if (userNameStore[i].mediumScore < userNameStore[j].mediumScore){
+                swaping_string(&userNameStore[i].name,&userNameStore[j].name);
+                swaping_integer(&userNameStore[i].easyScore,&userNameStore[j].easyScore);
+                swaping_integer(&userNameStore[i].mediumScore,&userNameStore[j].mediumScore);
+                swaping_integer(&userNameStore[i].hardScore,&userNameStore[j].hardScore);
+
+            }
+        }
+    }
+
+    for(int i = 0; i < size; i++) {
+        sortedUserNameStore[i] = userNameStore[i];
+    }
+
+    return sortedUserNameStore;
+}
+
+top3Medium* top3_medium_level(User userNameStore[], int size) {
+    top3Medium *top3MediumLevel = new top3Medium[size];
+    // Find all the top 1 score
+    int countFirstTop =1;
+    for(int i = 0; i < size; i++) {
+        top3MediumLevel[0].top1 = userNameStore[0].name;
+        top3MediumLevel[0].top1Score = userNameStore[0].mediumScore;
+        if(userNameStore[0].mediumScore == userNameStore[i+1].mediumScore) {
+            top3MediumLevel[i+1].top1 = userNameStore[i+1].name;
+            countFirstTop++;
+
+        }
+    }
+    // cout << endl;
+    // for (int i = 0; i < 10; i++) {
+    //     cout << top3EasyLevel[i].top1<< " ";
+    //
     // }
 
-    // return sortedUserNameStore;
+    // Find all the top 2 score
+    int countSecondTop =1;
+    for(int i = countFirstTop; i<size; i++) {
+        top3MediumLevel[0].top2 = userNameStore[countFirstTop].name;
+        top3MediumLevel[0].top2Score = userNameStore[countFirstTop].mediumScore;
+        if(userNameStore[countFirstTop].mediumScore == userNameStore[i+1].mediumScore) {
+            for(int j =countSecondTop-1; j<countSecondTop; j++) { // từ từ làm lại =)))))))
+                top3MediumLevel[j+1].top2 = userNameStore[i+1].name;
+            }
+            countSecondTop++;
+        }
+    }
 
+
+    int countThirdTop =1;
+    int totalTop1and2= countFirstTop+ countSecondTop;
+
+    for(int i = totalTop1and2; i<size; i++) {
+        top3MediumLevel[0].top3 = userNameStore[totalTop1and2].name;
+        top3MediumLevel[0].top3Score = userNameStore[totalTop1and2].mediumScore;
+        if(userNameStore[totalTop1and2].mediumScore == userNameStore[i+1].mediumScore) {
+            for(int j =countThirdTop-1; j<countThirdTop; j++) { // từ từ làm lại =)))))))
+                top3MediumLevel[j+1].top3 = userNameStore[i+1].name;
+            }
+            countThirdTop++;
+        }
+    }
+    for(int i = 0; i < size; i++) {
+        top3MediumLevel[i] = top3MediumLevel[i];
+    }
+    return top3MediumLevel;
+}
+
+User *sorting_hardScores_of_userNameStore_Struct_max_to_min( User userNameStore[], int size){
+    User *sortedUserNameStore = new User[size];
+
+    for(int i = 0; i< size; i++){
+        for(int j = i + 1; j < size; j++){
+            if (userNameStore[i].hardScore < userNameStore[j].hardScore){
+                swaping_string(&userNameStore[i].name,&userNameStore[j].name);
+                swaping_integer(&userNameStore[i].easyScore,&userNameStore[j].easyScore);
+                swaping_integer(&userNameStore[i].mediumScore,&userNameStore[j].mediumScore);
+                swaping_integer(&userNameStore[i].hardScore,&userNameStore[j].hardScore);
+
+            }
+        }
+    }
+
+    for(int i = 0; i < size; i++) {
+        sortedUserNameStore[i] = userNameStore[i];
+    }
+
+    return sortedUserNameStore;
+
+}
+
+top3Hard* top3_hard_level(User userNameStore[], int size) {
+    top3Hard *top3HardLevel = new top3Hard[size];
+    // Find all the top 1 score
+    int countFirstTop =1;
+    for(int i = 0; i < size; i++) {
+        top3HardLevel[0].top1 = userNameStore[0].name;
+        top3HardLevel[0].top1Score = userNameStore[0].hardScore;
+        if(userNameStore[0].hardScore == userNameStore[i+1].hardScore) {
+            top3HardLevel[i+1].top1 = userNameStore[i+1].name;
+            countFirstTop++;
+
+        }
+    }
+    // cout << endl;
+    // for (int i = 0; i < 10; i++) {
+    //     cout << top3EasyLevel[i].top1<< " ";
+    //
+    // }
+
+    // Find all the top 2 score
+    int countSecondTop =1;
+    for(int i = countFirstTop; i<size; i++) {
+        top3HardLevel[0].top2 = userNameStore[countFirstTop].name;
+        top3HardLevel[0].top2Score = userNameStore[countFirstTop].hardScore;
+        if(userNameStore[countFirstTop].hardScore == userNameStore[i+1].hardScore) {
+            for(int j =countSecondTop-1; j<countSecondTop; j++) { // từ từ làm lại =)))))))
+                top3HardLevel[j+1].top2 = userNameStore[i+1].name;
+            }
+            countSecondTop++;
+        }
+    }
+
+
+    int countThirdTop =1;
+    int totalTop1and2= countFirstTop+ countSecondTop;
+
+    for(int i = totalTop1and2; i<size; i++) {
+        top3HardLevel[0].top3 = userNameStore[totalTop1and2].name;
+        top3HardLevel[0].top3Score = userNameStore[totalTop1and2].hardScore;
+        if(userNameStore[totalTop1and2].hardScore == userNameStore[i+1].hardScore) {
+            for(int j =countThirdTop-1; j<countThirdTop; j++) { // từ từ làm lại =)))))))
+                top3HardLevel[j+1].top3 = userNameStore[i+1].name;
+            }
+            countThirdTop++;
+        }
+    }
+    for(int i = 0; i < size; i++) {
+        top3HardLevel[i] = top3HardLevel[i];
+    }
+    return top3HardLevel;
 }
 
 void sorting_mediumScores_of_userNameStore_Struct(User userNameStore[], int size){
@@ -235,6 +448,100 @@ void sorting_hardScores_of_userNameStore_Struct(User userNameStore[], int size){
     // return sortedUserNameStore;
 }
 
+void print_easy_level(top3Easy top3E[], int size) {
+    cout << endl;
+    cout << "EASY LEVEL"<< endl;
+
+    cout << "Top 1 - Player: ";
+
+    for(int i = 0; i < size; i++) {
+        cout << top3E[i].top1 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3E[0].top1Score;;
+
+    cout << endl;
+    cout << "Top 2 - Player: ";
+    for(int i = 0; i < size; i++) {
+        cout << top3E[i].top2 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3E[0].top2Score;;
+
+    cout << endl;
+    cout << "Top 3 - Player: ";
+    for(int i = 0; i < size; i++) {
+        cout << top3E[i].top3 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3E[0].top3Score;;
+}
+
+void print_medium_level(top3Medium top3M[], int size) {
+    cout << endl;
+    cout << endl;
+
+    cout << "MEDIUM LEVEL"<< endl;
+    cout << "Top 1 - Player: ";
+    for(int i = 0; i < size; i++) {
+        cout << top3M[i].top1 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3M[0].top1Score;;
+
+    cout << endl;
+    cout << "Top 2: ";
+    for(int i = 0; i < size; i++) {
+        cout << top3M[i].top2 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3M[0].top2Score;;
+
+    cout << endl;
+    cout << "Top 3: ";
+    for(int i = 0; i < size; i++) {
+        cout << top3M[i].top3 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3M[0].top3Score;;
+}
+
+void print_hard_level(top3Hard top3H[], int size) {
+    cout << endl;
+    cout << endl;
+    cout << "HARD LEVEL"<< endl;
+    cout << "Top 1 - Player: ";
+    for(int i = 0; i < size; i++) {
+        cout << top3H[i].top1 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3H[0].top1Score;;
+
+    cout << endl;
+    cout << "Top 2 - Player: ";
+    for(int i = 0; i < size; i++) {
+        cout << top3H[i].top2 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3H[0].top2Score;;
+    cout << endl;
+    cout << "Top 3 - Player: ";
+    for(int i = 0; i < size; i++) {
+        cout << top3H[i].top3 << " ";
+
+    }
+    cout << endl;
+    cout << "  Score: "<<top3H[0].top3Score;;
+}
+
 int main() {
 
     User userNameInput;
@@ -270,32 +577,26 @@ int main() {
 
     int size = size_of_serNameStore_Struct(userNameStore);
 
+    User *userSortedEasyLevel = new User[1000];
+    User *userSortedMediumLevel = new User[1000];
+    User *userSortedHardLevel = new User[1000];
+
+    userSortedEasyLevel = sorting_easyScores_of_userNameStore_Struct_max_to_min(userNameStore, size);
+    userSortedMediumLevel = sorting_mediumScores_of_userNameStore_Struct_max_to_min(userNameStore, size);
+    userSortedHardLevel = sorting_hardScores_of_userNameStore_Struct_max_to_min(userNameStore, size);
 
 
+    top3Easy  *top3E = new top3Easy[1000];
+    top3E = top3_easy_level(userSortedEasyLevel, size);
+    print_easy_level(top3E, size);
 
-    cout<< endl;
-    for(int i = 0; i < size; i++) {
-        cout << userNameStore[i].name << " ";
-    }
+    top3Medium *top3M = new top3Medium[1000];
+    top3M = top3_medium_level(userSortedMediumLevel, size);
+    print_medium_level(top3M, size);
 
-    cout<< endl;
-    for(int i = 0; i < size; i++) {
-        cout << userNameStore[i].easyScore << " ";
-    }
-
-    cout << endl;
-    for(int i = 0; i < size; i++) {
-        cout << userNameStore[i].mediumScore<< " ";
-    }
-
-    cout << endl;
-    for(int i = 0; i < size; i++) {
-        cout << userNameStore[i].hardScore << " ";
-    }
-
-    cout << endl;
-
-    sorting_easyScores_of_userNameStore_Struct(top3ELevel, userNameStore, size);
+    top3Hard *top3H = new top3Hard[1000];
+    top3H = top3_hard_level(userSortedHardLevel, size);
+    print_hard_level(top3H, size);
 
 
     return 0;
