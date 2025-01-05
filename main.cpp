@@ -1,11 +1,10 @@
-
+#include <iostream>
 #include <iostream>
 #include <fstream>
 #include <string>
 
 using namespace std;
-
-struct User { // tạo ra một cấu trúc,
+struct User { // Create a structure
     string name;
     int easyScore;
     int mediumScore;
@@ -22,7 +21,7 @@ string reading_file(string filename) {
     string para;
     while (getline(instance, line)) {
 
-        para = line + "\n" + para ;;
+        para = line + " " + para ;;
 
     }
 
@@ -51,27 +50,10 @@ string attaching_in_one_line(string filename) {
 }
 
 string attaching_string(User userName, string text) {
-    string para = text + userName.name;
+    string para = text + userName.name  ;
     return para;
 }
 
-void writing_into_file(string attaching, User username) {
-    ofstream outfile;
-    outfile.open(R"(C:\Users\NGUYEN THIEN TU\Desktop\WordleGame\user.txt)");
-
-
-    if (outfile.is_open()) {
-        outfile << attaching;
-        outfile <<" "<< username.easyScore;
-        outfile <<" "<< username.mediumScore;
-        outfile <<" "<< username.hardScore;
-        outfile.close();
-
-    } else {
-        cout << "Error opening file." << endl;
-    }
-
-}
 
 void split(string arr[],string &text, int &arraySize){
     char *word= new char[10];//  khởi tạo word
@@ -103,14 +85,14 @@ void split(string arr[],string &text, int &arraySize){
     }
 }
 
-void storing_name_into_userNameStore_Struct(User userNameStore[], string textString, string arr[]) {
-    for(int i = 0; i < textString.size() ; i++){
+void storing_name_into_userNameStore_Struct(User userNameStore[],int arrUserSize, string arr[]) {
+    for(int i = 0; i <= arrUserSize ; i++){
         userNameStore[i].name = arr[4*i];
     }
 
 }
 
-int size_of_serNameStore_Struct(User userNameStore[]) {
+int size_of_userNameStore_Struct(User userNameStore[]) {
     int count = 0;
     for (int i = 0; i < 1000; i++) {
         if (userNameStore[i].name != "") {
@@ -120,26 +102,63 @@ int size_of_serNameStore_Struct(User userNameStore[]) {
     return count;
 }
 
-void change_score_string_to_integer(string textString, string arr[], User userNameStore[]) {
+int size_of_array(string arr[]) {
+    int count = 0;
+    for (int i = 0; i < 1000; i++) {
+        if (arr[i] != "") {
+            count ++;
+        }
+    }
+    return count;
+}
+
+void change_score_string_to_integer(int arrUserSize, string arr[], User userNameStore[]) {
     string arrEasyScore[1000];
     string arrMediumScore[1000];
     string arrHardScore[1000];
 
 
-    for(int i = 0; i < textString.size() ; i++){
+    for(int i = 0; i < arrUserSize ; i++){
         arrEasyScore [i] = arr[4*i + 1] ;
         arrMediumScore[i] = arr[4*i + 2] ;
         arrHardScore[i] = arr[4*i + 3];
     }
 
-    int count = size_of_serNameStore_Struct(userNameStore);
+    int count = size_of_userNameStore_Struct(userNameStore);
 
-    for(int i = 0; i < count; i++) {
+    for(int i = 0; i < arrUserSize; i++) {
         userNameStore[i].easyScore = stoi(arrEasyScore[i]);
         userNameStore[i].mediumScore = stoi(arrMediumScore[i]);
         userNameStore[i].hardScore= stoi(arrHardScore[i]);
     }
 }
+
+void writing_into_file(User username[],   int sizeFinalUserNameStore) {
+    ofstream outfile;
+    outfile.open(R"(C:\Users\NGUYEN THIEN TU\Desktop\WordleGame\user.txt)");
+
+    if (outfile.is_open()) {
+
+
+
+            for (int i = 0; i < sizeFinalUserNameStore; i++){
+                outfile << username[i].name;
+                outfile <<" "<< username[i].easyScore;
+                outfile <<" "<< username[i].mediumScore;
+                outfile <<" "<< username[i].hardScore;
+                outfile<< endl;
+            }
+
+
+
+        outfile.close();
+
+    } else {
+        cout << "Error opening file." << endl;
+    }
+
+}
+
 
 void swaping_integer(int *a, int *b){
     int temp = *a;
@@ -448,6 +467,42 @@ void sorting_hardScores_of_userNameStore_Struct(User userNameStore[], int size){
     // return sortedUserNameStore;
 }
 
+void duplicate_username_modifying(User userNameStore[], User userNameInput, int userSize){
+    int count = 0;
+
+    for (int i = 0; i < userSize; i++){
+        if(userNameStore[i].name != userNameInput.name){
+            count++;
+
+        }
+
+    }
+
+    if (count == userSize){
+            userNameStore[userSize].name = userNameInput.name;
+            userNameStore[userSize].easyScore = userNameInput.easyScore;
+            userNameStore[userSize].mediumScore = userNameInput.mediumScore;
+            userNameStore[userSize].hardScore = userNameInput.hardScore;
+    }
+
+
+
+    if (count == (userSize -1)){
+
+        for(int i = 0; i < userSize ; i++){
+            if( userNameInput.name == userNameStore[i].name){
+                //cout << userNameInput.name << " " << userNameStore[i].name << i ;
+
+                userNameStore[i].name = userNameInput.name;
+                userNameStore[i].easyScore = userNameInput.easyScore;
+                userNameStore[i].mediumScore = userNameInput.mediumScore;
+                userNameStore[i].hardScore = userNameInput.hardScore;
+
+            }
+        }
+    }
+}
+
 void print_easy_level(top3Easy top3E[], int size) {
     cout << endl;
     cout << "EASY LEVEL"<< endl;
@@ -494,7 +549,7 @@ void print_medium_level(top3Medium top3M[], int size) {
     cout << "  Score: "<<top3M[0].top1Score;;
 
     cout << endl;
-    cout << "Top 2: ";
+    cout << "Top 2 - Player: ";
     for(int i = 0; i < size; i++) {
         cout << top3M[i].top2 << " ";
 
@@ -503,7 +558,7 @@ void print_medium_level(top3Medium top3M[], int size) {
     cout << "  Score: "<<top3M[0].top2Score;;
 
     cout << endl;
-    cout << "Top 3: ";
+    cout << "Top 3 - Player: ";
     for(int i = 0; i < size; i++) {
         cout << top3M[i].top3 << " ";
 
@@ -542,11 +597,10 @@ void print_hard_level(top3Hard top3H[], int size) {
     cout << "  Score: "<<top3H[0].top3Score;;
 }
 
-int main() {
-
+int main()
+{
     User userNameInput;
     User userNameStore[1000];
-    top3Easy top3ELevel[1000];
 
     string arrUser[1000];
     int arraySize = 0;
@@ -555,49 +609,40 @@ int main() {
     userNameInput.mediumScore = 7;
     userNameInput.hardScore = 10;
 
-    cout << "Welcome to Wordle Game" << endl;
-
-    cout << "Please input user name: ";
-
-    getline(cin, userNameInput.name);
-
     string text = reading_file(R"(C:\Users\NGUYEN THIEN TU\Desktop\WordleGame\user.txt)");
 
-    string attaching = attaching_string( userNameInput, text);
+    split(arrUser,text, arraySize);
 
-    writing_into_file(attaching,  userNameInput) ;
+    int arrUserSize = size_of_array(arrUser);
 
-    string textString = attaching_in_one_line(R"(C:\Users\NGUYEN THIEN TU\Desktop\WordleGame\user.txt)");
+    int userSize = arrUserSize/4;
 
-    split(arrUser,textString, arraySize);
+    change_score_string_to_integer(userSize, arrUser, userNameStore);
 
-    storing_name_into_userNameStore_Struct( userNameStore, textString, arrUser );
+    storing_name_into_userNameStore_Struct( userNameStore, userSize, arrUser );
 
-    change_score_string_to_integer(textString, arrUser, userNameStore);
+    cout << "Please input user name: ";
+    getline(cin, userNameInput.name);
 
-    int size = size_of_serNameStore_Struct(userNameStore);
+    duplicate_username_modifying(userNameStore, userNameInput, userSize);
 
-    User *userSortedEasyLevel = new User[1000];
-    User *userSortedMediumLevel = new User[1000];
-    User *userSortedHardLevel = new User[1000];
+    int sizeFinalUserNameStore = size_of_userNameStore_Struct(userNameStore);
 
-    userSortedEasyLevel = sorting_easyScores_of_userNameStore_Struct_max_to_min(userNameStore, size);
-    userSortedMediumLevel = sorting_mediumScores_of_userNameStore_Struct_max_to_min(userNameStore, size);
-    userSortedHardLevel = sorting_hardScores_of_userNameStore_Struct_max_to_min(userNameStore, size);
+    writing_into_file(userNameStore,sizeFinalUserNameStore);
+
+    User *userSortedEasyLevel = sorting_easyScores_of_userNameStore_Struct_max_to_min(userNameStore, sizeFinalUserNameStore);
+    User *userSortedMediumLevel = sorting_mediumScores_of_userNameStore_Struct_max_to_min(userNameStore, sizeFinalUserNameStore);
+    User *userSortedHardLevel = sorting_hardScores_of_userNameStore_Struct_max_to_min(userNameStore,sizeFinalUserNameStore);
 
 
-    top3Easy  *top3E = new top3Easy[1000];
-    top3E = top3_easy_level(userSortedEasyLevel, size);
-    print_easy_level(top3E, size);
+    top3Easy  *top3E = top3_easy_level(userSortedEasyLevel, sizeFinalUserNameStore);
+    print_easy_level(top3E, sizeFinalUserNameStore);
 
-    top3Medium *top3M = new top3Medium[1000];
-    top3M = top3_medium_level(userSortedMediumLevel, size);
-    print_medium_level(top3M, size);
+    top3Medium *top3M = top3_medium_level(userSortedMediumLevel, sizeFinalUserNameStore);
+    print_medium_level(top3M, sizeFinalUserNameStore);
 
-    top3Hard *top3H = new top3Hard[1000];
-    top3H = top3_hard_level(userSortedHardLevel, size);
-    print_hard_level(top3H, size);
-
+    top3Hard *top3H = top3_hard_level(userSortedHardLevel,sizeFinalUserNameStore);
+    print_hard_level(top3H, sizeFinalUserNameStore);
 
     return 0;
 }
