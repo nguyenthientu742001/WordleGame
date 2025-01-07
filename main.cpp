@@ -54,7 +54,6 @@ string attaching_string(User userName, string text) {
     return para;
 }
 
-
 void split(string arr[],string &text, int &arraySize){
     char *word= new char[10];//  khởi tạo word
     int wordSize = 0;// kích cỡ word
@@ -83,6 +82,29 @@ void split(string arr[],string &text, int &arraySize){
             wordSize=0;
         }
     }
+}
+
+int checking_space(string name) {
+    for (int i = 0; i < name.length(); i++) {
+        if (name[i] == ' ') {
+            return 0; // Space found
+        }
+    }
+    return 1; // No spaces found
+}
+
+void inputing_username(User &userNameInput){
+    int spaceCheck = 0; // Initialize spaceCheck to indicate no spaces initially
+
+    do {
+        cout << "Please input user name: ";
+        getline(cin, userNameInput.name);
+        spaceCheck = checking_space(userNameInput.name); // Update spaceCheck
+        if (spaceCheck == 0) {
+            cout << "Please input no space in your username" << endl;
+        }
+    } while (spaceCheck == 0); // Loop until spaces are found
+    cout << endl;
 }
 
 void storing_name_into_userNameStore_Struct(User userNameStore[],int arrUserSize, string arr[]) {
@@ -159,7 +181,6 @@ void writing_into_file(User username[],   int sizeFinalUserNameStore) {
 
 }
 
-
 void swaping_integer(int *a, int *b){
     int temp = *a;
     *a = *b;
@@ -198,6 +219,16 @@ struct top3Hard {
     int top2Score;
     int top3Score;
 };
+
+int size_of_struct(top3Easy top3E[]) {
+    int count = 0;
+    for (int i = 0; i < 1000; i++) {
+        if (top3E[i].top1 != "") {
+            count ++;
+        }
+    }
+    return count;
+}
 
 User *sorting_easyScores_of_userNameStore_Struct_max_to_min( User userNameStore[], int size){
     User *sortedUserNameStore = new User[size];
@@ -507,95 +538,160 @@ void print_easy_level(top3Easy top3E[], int size) {
     cout << endl;
     cout << "EASY LEVEL"<< endl;
 
-    cout << "Top 1 - Player: ";
+    int sizeEasyTop1 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3E[i].top1 != "" ){
+            sizeEasyTop1++;
+        }
 
-    for(int i = 0; i < size; i++) {
-        cout << top3E[i].top1 << " ";
+    }
+    cout << "Top 1 - Score: " << top3E[0].top1Score << endl;
+    cout << " PLayer: " ;
+    for(int i = 0; i < sizeEasyTop1; i++) {
+        cout << " "<< top3E[i].top1;
 
     }
     cout << endl;
-    cout << "  Score: "<<top3E[0].top1Score;;
 
-    cout << endl;
-    cout << "Top 2 - Player: ";
-    for(int i = 0; i < size; i++) {
-        cout << top3E[i].top2 << " ";
+    int sizeEasyTop2 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3E[i].top2 != "" ){
+            sizeEasyTop2++;
+        }
+
+    }
+    cout << "Top 2 - Score: " << top3E[0].top2Score << endl;
+    cout << " PLayer: " ;
+    for(int i = 0; i < sizeEasyTop2; i++) {
+        cout <<" "<< top3E[i].top2;
+
+    }
+
+    int sizeEasyTop3 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3E[i].top3 != "" ){
+            sizeEasyTop3++;
+        }
 
     }
     cout << endl;
-    cout << "  Score: "<<top3E[0].top2Score;;
-
-    cout << endl;
-    cout << "Top 3 - Player: ";
-    for(int i = 0; i < size; i++) {
-        cout << top3E[i].top3 << " ";
+    cout << "Top 3 - Score: " << top3E[0].top3Score << endl;
+    cout << " PLayer: " ;
+    for(int i = 0; i < sizeEasyTop3; i++) {
+        cout << " "<<top3E[i].top3 ;
 
     }
     cout << endl;
-    cout << "  Score: "<<top3E[0].top3Score;;
 }
 
 void print_medium_level(top3Medium top3M[], int size) {
     cout << endl;
-    cout << endl;
-
     cout << "MEDIUM LEVEL"<< endl;
-    cout << "Top 1 - Player: ";
-    for(int i = 0; i < size; i++) {
-        cout << top3M[i].top1 << " ";
+
+    int sizeMediumTop1 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3M[i].top1 != "" ){
+            sizeMediumTop1++;
+        }
 
     }
-    cout << endl;
-    cout << "  Score: "<<top3M[0].top1Score;;
-
-    cout << endl;
-    cout << "Top 2 - Player: ";
-    for(int i = 0; i < size; i++) {
-        cout << top3M[i].top2 << " ";
+    cout << "Top 1 - Score: " << top3M[0].top1Score << endl;
+    cout << " PLayer: " ;
+    for(int i = 0; i < sizeMediumTop1; i++) {
+        cout << " "<< top3M[i].top1;
 
     }
-    cout << endl;
-    cout << "  Score: "<<top3M[0].top2Score;;
 
     cout << endl;
-    cout << "Top 3 - Player: ";
-    for(int i = 0; i < size; i++) {
-        cout << top3M[i].top3 << " ";
+
+    int sizeMediumTop2 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3M[i].top2 != "" ){
+            sizeMediumTop2++;
+        }
 
     }
+    cout << "Top 2 - Score: " << top3M[0].top2Score << endl;
+    cout << " PLayer: " ;
+    for(int i = 0; i < sizeMediumTop2; i++) {
+        cout <<" "<< top3M[i].top2;
+
+    }
+
     cout << endl;
-    cout << "  Score: "<<top3M[0].top3Score;;
+
+    int sizeMediumTop3 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3M[i].top3 != "" ){
+            sizeMediumTop3++;
+        }
+
+    }
+    cout << "Top 3 - Score: " << top3M[0].top3Score << endl;
+    cout << " PLayer: ";
+    for(int i = 0; i < sizeMediumTop3; i++) {
+        cout << " "<<top3M[i].top3 ;
+
+    }
+    cout << endl;;
 }
 
 void print_hard_level(top3Hard top3H[], int size) {
     cout << endl;
-    cout << endl;
     cout << "HARD LEVEL"<< endl;
-    cout << "Top 1 - Player: ";
-    for(int i = 0; i < size; i++) {
-        cout << top3H[i].top1 << " ";
+
+    int sizeHardTop1 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3H[i].top1 != "" ){
+            sizeHardTop1++;
+        }
 
     }
-    cout << endl;
-    cout << "  Score: "<<top3H[0].top1Score;;
-
-    cout << endl;
-    cout << "Top 2 - Player: ";
-    for(int i = 0; i < size; i++) {
-        cout << top3H[i].top2 << " ";
+    cout << "Top 1 - Score: " << top3H[0].top1Score << endl;
+    cout << " PLayer: " ;
+    for(int i = 0; i < sizeHardTop1; i++) {
+        cout << " "<< top3H[i].top1;
 
     }
+
     cout << endl;
-    cout << "  Score: "<<top3H[0].top2Score;;
-    cout << endl;
-    cout << "Top 3 - Player: ";
-    for(int i = 0; i < size; i++) {
-        cout << top3H[i].top3 << " ";
+
+    int sizeHardTop2 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3H[i].top2 != "" ){
+            sizeHardTop2++;
+        }
 
     }
+    cout << "Top 2 - Score: " << top3H[0].top2Score << endl;
+    cout << " PLayer: " ;
+
+    for(int i = 0; i < sizeHardTop2; i++) {
+        cout <<" "<< top3H[i].top2;
+
+    }
+
     cout << endl;
-    cout << "  Score: "<<top3H[0].top3Score;;
+    int sizeHardTop3 = 0;
+    for (int i = 0; i < size; i++) {
+        if(top3H[i].top3 != "" ){
+            sizeHardTop3++;
+        }
+
+    }
+    cout << "Top 3 - Score: " << top3H[0].top3Score << endl;
+    cout << " PLayer: ";
+    for(int i = 0; i < sizeHardTop3; i++) {
+
+        cout << " "<<top3H[i].top3 ;
+
+    }
+
+    cout << endl;
+
 }
+
+// Function to check for spaces in the string
 
 int main()
 {
@@ -621,8 +717,7 @@ int main()
 
     storing_name_into_userNameStore_Struct( userNameStore, userSize, arrUser );
 
-    cout << "Please input user name: ";
-    getline(cin, userNameInput.name);
+    inputing_username(userNameInput);
 
     duplicate_username_modifying(userNameStore, userNameInput, userSize);
 
@@ -634,9 +729,8 @@ int main()
     User *userSortedMediumLevel = sorting_mediumScores_of_userNameStore_Struct_max_to_min(userNameStore, sizeFinalUserNameStore);
     User *userSortedHardLevel = sorting_hardScores_of_userNameStore_Struct_max_to_min(userNameStore,sizeFinalUserNameStore);
 
-
     top3Easy  *top3E = top3_easy_level(userSortedEasyLevel, sizeFinalUserNameStore);
-    print_easy_level(top3E, sizeFinalUserNameStore);
+    print_easy_level(top3E,sizeFinalUserNameStore);
 
     top3Medium *top3M = top3_medium_level(userSortedMediumLevel, sizeFinalUserNameStore);
     print_medium_level(top3M, sizeFinalUserNameStore);
