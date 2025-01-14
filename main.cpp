@@ -2,6 +2,8 @@
 #include <string>
 #include <fstream>
 #include <cstdlib> // For srand and rand
+#include <conio.h>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -10,6 +12,15 @@ struct User {
     int easyScore = 0;
     int mediumScore = 0;
     int hardScore = 0;
+};
+
+struct top3Ranked {
+    string top1Player;
+    string top2Player;
+    string top3Player;
+    int top1Score;
+    int top2Score;
+    int top3Score;
 };
 
 string reading_file(string filename) {
@@ -293,10 +304,10 @@ string obscureWord(const string &word) {
     return obscuredWord;
 }
 
-int play_easy_game(int choice) {
+void play_easy_game(int choice, int &score) {
     string easyWords[50];
     int easyWordCount = 0;
-    int score = 0;
+
     if (choice == 1) {
         readWordsFromFile(R"(C:\Users\NGUYEN THIEN TU\Desktop\WordleGame\easy.txt)", easyWords, easyWordCount, 50);
         string randomWords[10];
@@ -321,7 +332,6 @@ int play_easy_game(int choice) {
         }
         cout << "Game over! Your score: " << score << "/10" << endl;
     }
-    return score;
 
 }
 
@@ -460,8 +470,8 @@ void inputing_level(int &level) {
 
 void generate_level_and_playing_game(int level, int &storingScore, User &userNameInput ) {
     if (level == 1) {
-        storingScore= play_easy_game(level);
-        userNameInput.easyScore = storingScore ;
+        play_easy_game(level,storingScore);
+        userNameInput.easyScore = storingScore;
     }
     else if (level == 2) {
         storingScore = play_medium_game(level);
@@ -474,14 +484,7 @@ void generate_level_and_playing_game(int level, int &storingScore, User &userNam
     }
 }
 // top3 players and scores
-struct top3Ranked {
-    string top1Player;
-    string top2Player;
-    string top3Player;
-    int top1Score;
-    int top2Score;
-    int top3Score;
-};
+
 
 int size_of_struct(top3Ranked top3E[]) {
     int count = 0;
@@ -979,9 +982,9 @@ int main() {
     cout << "***** Wordle Game *****";
     cout << endl;
     User userNameInput;
-    User userNameStore[1000];
+    User userNameStore[10000];
 
-    string arrUser[1000];
+    string arrUser[10000];
     int arraySize = 0;
 
     int storingScore;
@@ -1033,10 +1036,12 @@ int main() {
             inputing_scores( userNameStore, userNameInput, userSize, level);
             writing_into_file(userNameStore,sizeFinalUserNameStore);
 
+            // system("cls");
 
         }
 
         if (choice == "B" || choice == "b") {
+
             User *userSortedEasyLevel = sorting_easyScores_of_userNameStore_Struct_max_to_min(userNameStore, sizeFinalUserNameStore);
             User *userSortedMediumLevel = sorting_mediumScores_of_userNameStore_Struct_max_to_min(userNameStore, sizeFinalUserNameStore);
             User *userSortedHardLevel = sorting_hardScores_of_userNameStore_Struct_max_to_min(userNameStore,sizeFinalUserNameStore);
@@ -1048,12 +1053,18 @@ int main() {
             print_medium_level(top3Medium, sizeFinalUserNameStore);
             print_hard_level(top3Hard, sizeFinalUserNameStore);
 
-
-        }
-
-
-        if (choice == "C" || choice == "c") {
-            isRun = 0;
+            cout << endl;
+            cout << "Would you like to continue the game? " << endl;
+            cout << "1. Yes, keep playing" << endl;
+            cout << "0. Exit"<< endl;
+            cout << "Your choice: ";
+            cin >> isRun ;
+            if (isRun == 1) {
+                choice = "A";
+            }
+            else{
+                break ;
+            }
         }
 
         cout << endl;
@@ -1062,7 +1073,10 @@ int main() {
         cout << "0. Exit"<< endl;
         cout << "Your choice: ";
         cin >> isRun ;
-        system("CLS");
+
+        if (choice == "C" || choice == "c") {
+            isRun = 0;
+        }
 
     }
 
